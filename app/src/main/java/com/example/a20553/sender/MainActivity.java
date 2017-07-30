@@ -30,12 +30,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick (R.id.button)
-    public void onPressingButton (){
-        text.setText("Pressed!!");
-        button.setText("Oops! What did you do? :) ");
-    }
-
-    public void goToSettings(View view) {
+    public void goToSettings (){
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
     }

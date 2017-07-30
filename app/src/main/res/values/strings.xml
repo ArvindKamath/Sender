@@ -2,4 +2,17 @@
     <string name="app_name">Sender</string>
     <string name="welcome_name">Welcome to the Sender</string>
     <string name="settings_name">Settings</string>
+
+    <string name="global_back">Back</string>
+    <string name="global_add">Add</string>
+    <string name="global_cancel">Cancel</string>
+
+    <string name="title_activity_record">Record</string>
+
+    <string name="settings_add_new_record">Add New Record</string>
+
+    <string name="record_name">Name</string>
+    <string name="record_email">e-mail</string>
+    <string name="record_phone">phone</string>
+
 </resources>
