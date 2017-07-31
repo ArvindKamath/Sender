@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -16,8 +15,9 @@ public class MainActivity extends AppCompatActivity {
 
     final String TAG1 = "Main Activity";
 
-    @BindView(R.id.textView) TextView text;
-    @BindView(R.id.button) Button button;
+    @BindView(R.id.main_welcome_text) TextView text;
+    @BindView(R.id.main_settings_button) Button settings;
+    @BindView(R.id.main_send_location_button) Button sendLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +29,15 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG1, "onCreate");
     }
 
-    @OnClick (R.id.button)
+    @OnClick (R.id.main_settings_button)
     public void goToSettings (){
-        Intent intent = new Intent(this, Settings.class);
+        Intent intent = new Intent(this, SenderSettings.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.main_send_location_button)
+    public void goToSendLocation() {
+        Intent intent = new Intent(this, GpsActivity.class);
         startActivity(intent);
     }
 

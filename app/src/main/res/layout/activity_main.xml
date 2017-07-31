@@ -7,25 +7,38 @@
     tools:context="com.example.a20553.sender.MainActivity">
 
     <TextView
+        android:id="@+id/main_welcome_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/welcome_name"
+        android:text="@string/main_welcome"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/textView" />
+        android:layout_marginBottom="16dp"
+        app:layout_constraintVertical_bias="0.502" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/main_settings_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:onClick="goToSettings"
-        android:text="@string/settings_name"
+        android:text="@string/main_settings"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/main_welcome_text" />
+
+    <Button
+        android:id="@+id/main_send_location_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_send_location"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/main_welcome_text" />
 
 </android.support.constraint.ConstraintLayout>
