@@ -1,6 +1,7 @@
 package com.example.a20553.sender;
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -182,11 +184,21 @@ public class GpsActivity extends AppCompatActivity {
     }
 
     public void sendMessage(String message) {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, message);
-        sendIntent.setType("text/plain");
-        sendIntent.setPackage("com.whatsapp");
-        startActivity(sendIntent);
+        try {
+            Intent sendIntent = new Intent("android.intent.action.MAIN");
+
+            String smsNumber = "";
+
+            if (!smsNumber.isEmpty()) {
+                sendIntent.putExtra("jid", smsNumber + "@s.whatsapp.net");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, message);
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.setPackage("com.whatsapp");
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 }
