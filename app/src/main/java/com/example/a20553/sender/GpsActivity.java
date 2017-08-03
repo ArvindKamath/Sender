@@ -1,7 +1,6 @@
 package com.example.a20553.sender;
 
 import android.Manifest;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.Locale;
@@ -89,11 +87,9 @@ public class GpsActivity extends AppCompatActivity {
                             text.setText("Sending Location");
 
                             if (mLastLocation != null) {
-                                String currentLocation =
-                                        String.format("I am @ Latitude %f | Longitude %f",
-                                                mLastLocation.getLatitude(),
-                                                mLastLocation.getLongitude());
-                                sendMessage(currentLocation);
+                                String locationMessage = getGpsMessage(mLastLocation);
+
+                                sendMessage(locationMessage);
 
                                 goBack();
                             }
@@ -103,6 +99,14 @@ public class GpsActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private String getGpsMessage(Location mLastLocation) {
+        return getResources().getString(R.string.gps_text_prefix) +
+                getResources().getString(R.string.gps_url_base) +
+                mLastLocation.getLatitude() +
+                "," +
+                mLastLocation.getLongitude();
     }
 
     /**
@@ -187,7 +191,8 @@ public class GpsActivity extends AppCompatActivity {
         try {
             Intent sendIntent = new Intent("android.intent.action.MAIN");
 
-            String smsNumber = "";
+            String smsNumber = "919945282972"; //Deepak
+            //String smsNumber = "919845248470";
 
             if (!smsNumber.isEmpty()) {
                 sendIntent.putExtra("jid", smsNumber + "@s.whatsapp.net");

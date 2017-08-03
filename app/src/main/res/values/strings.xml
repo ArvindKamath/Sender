@@ -21,5 +21,7 @@
     <string name="gps_no_location_detected">No Location Detected</string>
     <string name="gps_permission_rationale">Permission Rationale</string>
     <string name="gps_permission_denied">Permission Denied</string>
+    <string name="gps_url_base">http://maps.google.com/?q=</string>
+    <string name="gps_text_prefix">I am here </string>
 
 </resources>
