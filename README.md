@@ -10,5 +10,8 @@ CONTACT
 [TODO] 0001 - add one contact
 
 
-Cosmetics
-[
+Pages:
+page 1
+
+. View Existing Activities
+. Add Activity
