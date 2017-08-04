@@ -191,11 +191,10 @@ public class GpsActivity extends AppCompatActivity {
         try {
             Intent sendIntent = new Intent("android.intent.action.MAIN");
 
-            String smsNumber = "919945282972"; //Deepak
-            //String smsNumber = "919845248470";
+            String smsNumber = "";
 
             if (!smsNumber.isEmpty()) {
-                sendIntent.putExtra("jid", smsNumber + "@s.whatsapp.net");
+                sendIntent.putExtra("jid", "Moto lunch" + "@s.whatsapp.net");
                 sendIntent.putExtra(Intent.EXTRA_TEXT, message);
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.setPackage("com.whatsapp");
