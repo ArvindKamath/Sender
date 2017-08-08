@@ -7,48 +7,22 @@
     tools:context="com.example.a20553.sender.MainActivity">
 
     <TextView
-        android:id="@+id/main_welcome_text"
+        android:id="@+id/loggerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_welcome"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintVertical_bias="0.502" />
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
-        android:id="@+id/main_settings_button"
+        android:id="@+id/AddFlow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:onClick="goToSettings"
-        android:text="@string/main_settings"
-        app:layout_constraintHorizontal_bias="0.501"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="+"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_welcome_text" />
-
-    <Button
-        android:id="@+id/main_send_location_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_send_location"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/main_welcome_text" />
-
-    <Button
-        android:id="@+id/main_send_message_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_send_message"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/main_send_location_button" />
-
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

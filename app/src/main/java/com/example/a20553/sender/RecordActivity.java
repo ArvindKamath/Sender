@@ -1,9 +1,7 @@
 package com.example.a20553.sender;
 
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -30,10 +28,7 @@ public class RecordActivity extends AppCompatActivity {
 
     @OnClick(R.id.record_add)
     public void onAdd() {
-        Record record = new Record();
-        name.setText(record.name);
-        email.setText(record.email);
-        phone.setText(record.phone);
+        SenderFlow senderFlow = new SenderFlow();
     }
 
     @OnClick(R.id.record_cancel)

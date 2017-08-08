@@ -6,8 +6,9 @@
     <string name="main_send_message">Send Message</string>
 
     <string name="global_back">Back</string>
-    <string name="global_add">Add</string>
+    <string name="global_add">+</string>
     <string name="global_cancel">Cancel</string>
+    <string name="global_save">Save</string>
 
     <string name="title_activity_record">Record</string>
 
@@ -23,5 +24,10 @@
     <string name="gps_permission_denied">Permission Denied</string>
     <string name="gps_url_base">http://maps.google.com/?q=</string>
     <string name="gps_text_prefix">I am here </string>
+
+    <string name="flow_what">What</string>
+    <string name="flow_how">How</string>
+    <string name="flow_to_whom">To Whom</string>
+    <string name="flow_name">Flow Name</string>
 
 </resources>
