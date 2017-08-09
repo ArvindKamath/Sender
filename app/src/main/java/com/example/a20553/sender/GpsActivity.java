@@ -103,6 +103,7 @@ public class GpsActivity extends AppCompatActivity {
 
     private String getGpsMessage(Location mLastLocation) {
         return getResources().getString(R.string.gps_text_prefix) +
+                " " +
                 getResources().getString(R.string.gps_url_base) +
                 mLastLocation.getLatitude() +
                 "," +
@@ -194,7 +195,7 @@ public class GpsActivity extends AppCompatActivity {
             String smsNumber = "";
 
             if (!smsNumber.isEmpty()) {
-                sendIntent.putExtra("jid", "Moto lunch" + "@s.whatsapp.net");
+                sendIntent.putExtra("jid", smsNumber + "@s.whatsapp.net");
                 sendIntent.putExtra(Intent.EXTRA_TEXT, message);
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.setPackage("com.whatsapp");

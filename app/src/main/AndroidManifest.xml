@@ -27,7 +27,17 @@
         <activity android:name=".HowActivity" />
         <activity android:name=".ToWhomActivity" />
         <activity android:name=".AddFlowActivity" />
-        <activity android:name=".ViewFlow"></activity>
+        <activity android:name=".ViewFlow" />
+
+        <receiver android:name=".SenderFlowWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/sender_flow_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

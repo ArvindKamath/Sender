@@ -30,4 +30,7 @@
     <string name="flow_to_whom">To Whom</string>
     <string name="flow_name">Flow Name</string>
 
+    <string name="sender_widget_text">Flow</string>
+    <string name="sender_widget_add">Add widget</string>
+
 </resources>

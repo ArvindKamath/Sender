@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.loggerText) TextView text;
     @BindView(R.id.AddFlow) Button button;
+    @BindView(R.id.sendLocation) Button sendLocationButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
     @OnClick (R.id.AddFlow)
     public void addFlow (){
         Intent intent = new Intent(this, AddFlowActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick (R.id.sendLocation)
+    public void sendLocation() {
+        Intent intent = new Intent(this, GpsActivity.class);
         startActivity(intent);
     }
 
