@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import GeneralUtilities.PermissionHandler;
@@ -62,12 +64,17 @@ public class MainActivity extends AppCompatActivity {
     public void viewFlow() {
         FlowDb flowDb = new FlowDb(this.getApplicationContext());
 
-        SenderFlow senderFlow = flowDb.getFirstFlow();
+        List<SenderFlow> senderFlow = flowDb.getAllFlows();
+        List<String> string = new ArrayList<String>();
 
-        flowInfo.setText(senderFlow.getDisplayName() +
-                senderFlow.getWhatFlowInformation() +
-                senderFlow.getHowFlowInformation() +
-                senderFlow.getToWhomFlowInformation());
+        for (SenderFlow flow: senderFlow) {
+            string.add(flow.getDisplayName() + ":" +
+            flow.getWhatFlowInformation() + ":" +
+            flow.getHowFlowInformation() + ":" +
+            flow.getToWhomFlowInformation() + "<>");
+        }
+
+        flowInfo.setText(string.toString());
     }
 
     @OnClick (R.id.sendLocation)

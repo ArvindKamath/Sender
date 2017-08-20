@@ -7,7 +7,9 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,7 +30,7 @@ public class FlowDb {
     private static final String KEY_DEFAULT = "FLOW_DEFAULT";
 
     /** This application's preferences */
-    private static SharedPreferences settings;
+    private static SharedPreferences settings = null;
 
     /** This application's settings editor*/
     private static SharedPreferences.Editor editor;
@@ -52,7 +54,7 @@ public class FlowDb {
     /** The prefix for flattened user keys */
     public static final String KEY_PREFIX = "com.example.a20553.sender.KEY";
 
-    private static JSONObject js;
+    private static JSONObject js = null;
 
     /** Constructor takes an android.content.Context argument*/
     public FlowDb(Context ctx){
@@ -61,7 +63,9 @@ public class FlowDb {
                     Context.MODE_PRIVATE );
         }
 
-        setupFlowInformation();
+        if (js == null) {
+            setupFlowInformation();
+        }
 
        /*
         * Get a SharedPreferences editor instance.
@@ -69,7 +73,6 @@ public class FlowDb {
         * and non-concurrent
         */
         editor = settings.edit();
-
     }
 
     /** Store or Update */
@@ -89,7 +92,6 @@ public class FlowDb {
         editor.putString(
                 getFieldKey(flow.getDisplayName(), KEY_TOWHOM_ACTION),
                 flow.getToWhomFlowInformation());
-        editor.commit();
 
         try {
             js.put(flow.getDisplayName(), true);
@@ -98,7 +100,7 @@ public class FlowDb {
             Log.e(TAG, "Exception in JSON");
         }
 
-
+        editor.commit();
     }
 
     /** Retrieve */
@@ -107,12 +109,21 @@ public class FlowDb {
         String howAction;
         String toWhomAction;
 
+        if (settings.getString(getFieldKey(displayName, KEY_DISPLAY_NAME), KEY_DEFAULT)
+                == KEY_DEFAULT) {
+            Log.e(TAG, "BIG PROBLEM");
+            new SenderFlow("UNKNOWN",
+                    "UNKNOWN",
+                    "UNKNOWN",
+                    "UNKNOWN");
+        }
+
         whatAction = settings.getString(
-                getFieldKey(displayName, KEY_DISPLAY_NAME), KEY_DEFAULT);
+                getFieldKey(displayName, KEY_WHAT_ACTION), KEY_DEFAULT);
         howAction = settings.getString(
-                getFieldKey(displayName, KEY_DISPLAY_NAME), KEY_DEFAULT);
+                getFieldKey(displayName, KEY_HOW_ACTION), KEY_DEFAULT);
         toWhomAction = settings.getString(
-                getFieldKey(displayName, KEY_DISPLAY_NAME),KEY_DEFAULT);
+                getFieldKey(displayName, KEY_TOWHOM_ACTION),KEY_DEFAULT);
 
         return new SenderFlow(displayName,
                 whatAction,
@@ -139,9 +150,23 @@ public class FlowDb {
     }
 
     public SenderFlow getFirstFlow() {
-        Iterator<String> iter = js.keys();
-        // only the first string/kley for now
-        return getFlow(iter.toString());
+        List<String> flowString = new ArrayList<String>();
+
+        for (Iterator<String> iter = js.keys(); iter.hasNext();) {
+            flowString.add(iter.next());
+        }
+
+        return getFlow(flowString.get(0));
+    }
+
+    public List<SenderFlow> getAllFlows() {
+        List<SenderFlow> flows = new ArrayList<SenderFlow>();
+
+        for (Iterator<String> iter = js.keys(); iter.hasNext();) {
+            flows.add(getFlow(iter.next()));
+        }
+
+        return flows;
     }
 
     private void setupFlowInformation () {

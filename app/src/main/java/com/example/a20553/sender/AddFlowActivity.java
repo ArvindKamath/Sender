@@ -54,22 +54,6 @@ public class AddFlowActivity extends AppCompatActivity {
         finish();
     }
 
-    private void addFlow() {
-        SenderFlow senderFlow = new SenderFlow(
-                displayName.toString(),
-                whatText.toString(),
-                howText.toString(),
-                toWhom.toString());
-
-        FlowDb flowDb = new FlowDb(this.getApplicationContext());
-
-        flowDb.setFlow(senderFlow);
-    }
-
-    private boolean isFlowReady() {
-        return false;
-    }
-
     @OnClick(R.id.WhatFlowButton)
     public void goToWhatActivity() {
         WhatAlert whatAlert = new WhatAlert(this, WHAT, whatText);
@@ -86,6 +70,23 @@ public class AddFlowActivity extends AppCompatActivity {
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
         startActivityForResult(contactPickerIntent, RESULT_PICK_CONTACT);
     }
+
+    private void addFlow() {
+        SenderFlow senderFlow = new SenderFlow(
+                displayName.getText().toString(),
+                whatText.getText().toString(),
+                howText.getText().toString(),
+                toWhom.getText().toString());
+
+        FlowDb flowDb = new FlowDb(this.getApplicationContext());
+
+        flowDb.setFlow(senderFlow);
+    }
+
+    private boolean isFlowReady() {
+        return false;
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

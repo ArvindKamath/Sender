@@ -23,7 +23,7 @@ public class WhatAlert {
 
         final CharSequence[] addFlowChoice;
         if (type == WHAT) {
-           addFlowChoice = new CharSequence[]{"Send Location", "Send Text Message"};
+            addFlowChoice = new CharSequence[]{"Send Location", "Send Text Message"};
         } else if (type == HOW) {
             addFlowChoice = new CharSequence[]{"WhatsApp", "SMS", "Other"};
         } else  {

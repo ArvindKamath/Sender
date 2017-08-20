@@ -37,7 +37,6 @@ public class SenderFlow {
     }
 
     public boolean isFlowReadyToStore() {
-
         return false;
     }
 
