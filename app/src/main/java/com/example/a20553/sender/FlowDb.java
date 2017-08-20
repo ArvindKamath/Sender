@@ -145,8 +145,7 @@ public class FlowDb {
     }
 
     public int getNumberOfFlows() {
-        js.length();
-        return numberOfFlows;
+        return js.length();
     }
 
     public SenderFlow getFirstFlow() {

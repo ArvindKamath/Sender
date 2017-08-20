@@ -3,6 +3,7 @@ package com.example.a20553.sender;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     String message;
 
     @BindView(R.id.loggerText) TextView text;
-    @BindView(R.id.AddFlow) Button button;
     @BindView(R.id.sendLocation) Button sendLocationButton;
     @BindView(R.id.ViewFlow) Button viewFlow;
     @BindView(R.id.FlowInfo) TextView flowInfo;
@@ -52,22 +52,18 @@ public class MainActivity extends AppCompatActivity {
 
         PermissionHandler.setupAllPermissions(this.getApplicationContext(),
                 this);
-    }
 
-    @OnClick (R.id.AddFlow)
-    public void addFlow (){
-        Intent intent = new Intent(this, AddFlowActivity.class);
-        startActivity(intent);
+        viewFlow();
     }
 
     @OnClick(R.id.ViewFlow)
     public void viewFlow() {
         FlowDb flowDb = new FlowDb(this.getApplicationContext());
 
-        List<SenderFlow> senderFlow = flowDb.getAllFlows();
+        List<SenderFlow> senderFlows = flowDb.getAllFlows();
         List<String> string = new ArrayList<String>();
 
-        for (SenderFlow flow: senderFlow) {
+        for (SenderFlow flow: senderFlows) {
             string.add(flow.getDisplayName() + ":" +
             flow.getWhatFlowInformation() + ":" +
             flow.getHowFlowInformation() + ":" +
@@ -75,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         flowInfo.setText(string.toString());
+
+        setupButtons(senderFlows);
     }
 
     @OnClick (R.id.sendLocation)
@@ -104,19 +102,36 @@ public class MainActivity extends AppCompatActivity {
         text.setText("Number of Activities: " + numberOfFlows);
     }
 
-    private void setupButton(int num) {
-        for (int i = 0; i < num; i++) {
-            Button myButton = new Button(this);
-            myButton.setText("Button :" + i);
-            myButton.setId(i);
-            final int id_ = myButton.getId();
+    private void setupButtons(List<SenderFlow> senderFlows) {
+        int i = 0;
+        {
+            final Button myButton = new Button(this);
+            myButton.setText("+");
+            myButton.setId(i++);
 
-            LinearLayout layout = (LinearLayout) findViewById(R.id.myDynamicLayout);
+            LinearLayout layout = (LinearLayout) findViewById(R.id.FlowButtonsLayout);
             layout.addView(myButton);
 
             myButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    text.setText("Touched this button");
+                    addFlow();
+                }
+            });
+        }
+
+        for (SenderFlow flow: senderFlows) {
+            Button myButton = new Button(this);
+            myButton.setText(flow.getDisplayName());
+            myButton.setId(i++);
+            final int id_ = myButton.getId();
+
+            LinearLayout layout = (LinearLayout) findViewById(R.id.FlowButtonsLayout);
+            layout.addView(myButton);
+
+            final String string = myButton.getText().toString();
+            myButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    text.setText("Touched " + string + " button");
                 }
             });
         }
@@ -147,5 +162,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         PermissionHandler.handlePermissionResults(this.getApplicationContext(), grantResults);
+    }
+
+    public void addFlow (){
+        Intent intent = new Intent(this, AddFlowActivity.class);
+        startActivity(intent);
     }
 }
