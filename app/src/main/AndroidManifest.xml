@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
     <!-- <uses-feature android:name="android.hardware.location.gps" /> -->
@@ -24,9 +26,6 @@
         <activity android:name=".SenderSettings" />
         <activity android:name=".RecordActivity" />
         <activity android:name=".GpsActivity" />
-        <activity android:name=".WhatActivity" />
-        <activity android:name=".HowActivity" />
-        <activity android:name=".ToWhomActivity" />
         <activity android:name=".AddFlowActivity" />
         <activity android:name=".ViewFlow" />
 

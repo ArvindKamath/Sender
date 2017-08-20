@@ -7,30 +7,25 @@ package com.example.a20553.sender;
 public class SenderFlow {
 
     static int nextFreeId = 1;
+    public static final int getNumberOfMembers = 4;
 
-    private int id;
     private String displayName;
-
-    private WhatActivity whatActivity;
-    private HowActivity howActivity;
-    private ToWhomActivity toWhomActivity;
-
+    private String whatFlowInformation;
+    private String howFlowInformation;
+    private String toWhomFlowInformation;
 
     public SenderFlow() {
-        setId(nextFreeId);
+        setDisplayName("Default FlowId");
     }
 
-    public SenderFlow(int id, String name) {
-        setId(id);
-        setDisplayName(name);
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
+    public SenderFlow(String displayName,
+                      String whatFlowInformation,
+                      String howFlowInformation,
+                      String toWhomFlowInformation) {
+        this.displayName = displayName;
+        this.whatFlowInformation = whatFlowInformation;
+        this.howFlowInformation = howFlowInformation;
+        this.toWhomFlowInformation = toWhomFlowInformation;
     }
 
     public void setDisplayName(String displayName) {
@@ -41,7 +36,32 @@ public class SenderFlow {
         return displayName;
     }
 
-    private int getNewId() {
-        return 10;
+    public boolean isFlowReadyToStore() {
+
+        return false;
+    }
+
+    public String getWhatFlowInformation() {
+        return whatFlowInformation;
+    }
+
+    public void setWhatFlowInformation(String whatFlowInformation) {
+        this.whatFlowInformation = whatFlowInformation;
+    }
+
+    public String getHowFlowInformation() {
+        return howFlowInformation;
+    }
+
+    public void setHowFlowInformation(String howFlowInformation) {
+        this.howFlowInformation = howFlowInformation;
+    }
+
+    public String getToWhomFlowInformation() {
+        return toWhomFlowInformation;
+    }
+
+    public void setToWhomFlowInformation(String toWhomFlowInformation) {
+        this.toWhomFlowInformation = toWhomFlowInformation;
     }
 }

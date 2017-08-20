@@ -1,25 +1,23 @@
 package com.example.a20553.sender;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-;import static com.example.a20553.sender.typeOfEntryInFlow.HOW;
-import static com.example.a20553.sender.typeOfEntryInFlow.TOWHOM;
+import static com.example.a20553.sender.typeOfEntryInFlow.HOW;
 import static com.example.a20553.sender.typeOfEntryInFlow.WHAT;
 
 public class AddFlowActivity extends AppCompatActivity {
@@ -30,6 +28,9 @@ public class AddFlowActivity extends AppCompatActivity {
     @BindView(R.id.WhatText) TextView whatText;
     @BindView(R.id.HowText) TextView howText;
     @BindView(R.id.ToWhomText) TextView toWhomText;
+    @BindView(R.id.FlowSave) Button save;
+    @BindView(R.id.FlowCancel) Button cancel;
+    @BindView(R.id.displayName) EditText displayName;
 
     private static final int RESULT_PICK_CONTACT = 0xff;
 
@@ -41,12 +42,32 @@ public class AddFlowActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
+    @OnClick(R.id.FlowCancel)
+    public void cancelFlow() {
+        finish();
+    }
+
+    @OnClick(R.id.FlowSave)
+    public void saveFlow () {
+        addFlow();
+
+        finish();
+    }
+
     private void addFlow() {
-        SenderFlow senderFlow = new SenderFlow(9, "Kamath");
+        SenderFlow senderFlow = new SenderFlow(
+                displayName.toString(),
+                whatText.toString(),
+                howText.toString(),
+                toWhom.toString());
 
         FlowDb flowDb = new FlowDb(this.getApplicationContext());
 
-        flowDb.setUser(senderFlow);
+        flowDb.setFlow(senderFlow);
+    }
+
+    private boolean isFlowReady() {
+        return false;
     }
 
     @OnClick(R.id.WhatFlowButton)
@@ -102,7 +123,7 @@ public class AddFlowActivity extends AppCompatActivity {
             phoneNo = cursor.getString(phoneIndex);
             name = cursor.getString(nameIndex);
             // Set the value to the textviews
-            toWhomText.setText(name + " : " + phoneNo);
+            toWhomText.setText(phoneNo);
         } catch (Exception e) {
             e.printStackTrace();
         }

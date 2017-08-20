@@ -20,8 +20,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-import java.util.Locale;
-
+import GeneralUtilities.PermissionHandler;
+import GeneralUtilities.PermissionType;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -29,7 +29,6 @@ import butterknife.OnClick;
 public class GpsActivity extends AppCompatActivity {
 
     private static final String TAG = "GpsActivity";
-    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
     @BindView(R.id.gps_back_button)
     Button gps_back_button;
@@ -55,9 +54,8 @@ public class GpsActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        if (!checkGpsPermissions()) {
-            requestGpsPermissions();
-        } else {
+        if (PermissionHandler.checkPermission(this.getApplicationContext(),
+                PermissionType.PERMISSION_TYPES_GET_LOCATION) == true) {
             getLastLocation();
         }
     }
@@ -95,7 +93,6 @@ public class GpsActivity extends AppCompatActivity {
                             }
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
-                            showSnackbar(getString(R.string.gps_no_location_detected));
                         }
                     }
                 });
@@ -110,89 +107,11 @@ public class GpsActivity extends AppCompatActivity {
                 mLastLocation.getLongitude();
     }
 
-    /**
-     * Shows a {@link Snackbar}.
-     *
-     * @param mainTextStringId The id for the string resource for the Snackbar text.
-     * @param actionStringId   The text of the action item.
-     * @param listener         The listener associated with the Snackbar action.
-     */
-    private void showSnackbar(final int mainTextStringId,
-                              final int actionStringId,
-                              View.OnClickListener listener) {
-
-        Log.w(TAG, "SnackBar 1");
-        Snackbar.make(findViewById(android.R.id.content),
-                        getString(mainTextStringId),
-                        Snackbar.LENGTH_INDEFINITE)
-                                .setAction(getString(actionStringId), listener).show();
-    }
-
-    /**
-     * Shows a {@link Snackbar} using {@code text}.
-     *
-     * @param text The Snackbar text.
-     */
-    private void showSnackbar(final String text) {
-        View container = findViewById(R.id.gps_welcome_text);
-
-        Log.w(TAG, "SnackBar 2");
-        if (container != null) {
-            Snackbar.make(container, text, Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-    private boolean checkGpsPermissions() {
-        Log.w(TAG, "CheckPermission");
-        int permissionState = ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION);
-
-        return permissionState == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void requestGpsPermissions() {
-
-        Log.w(TAG, "RequestPermission");
-        boolean shouldProvideRationale =
-                ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION);
-
-        // Provide an additional rationale to the user. This would happen if the user denied the
-        // request previously, but didn't check the "Don't ask again" checkbox.
-        if (shouldProvideRationale) {
-            Log.i(TAG, "Displaying permission rationale to provide additional context.");
-
-            showSnackbar(R.string.gps_permission_rationale,
-                    android.R.string.ok,
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // Request permission
-                            startLocationPermissionRequest();
-                        }
-                    });
-
-        } else {
-            Log.i(TAG, "Requesting permission");
-            // Request permission. It's possible this can be auto answered if device policy
-            // sets the permission in a given state or the user denied the permission
-            // previously and checked "Never ask again".
-            startLocationPermissionRequest();
-        }
-    }
-
-    private void startLocationPermissionRequest() {
-        Log.w(TAG, "startLocationPermissionRequest");
-        ActivityCompat.requestPermissions(GpsActivity.this,
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                REQUEST_PERMISSIONS_REQUEST_CODE);
-    }
-
     public void sendMessage(String message) {
         try {
             Intent sendIntent = new Intent("android.intent.action.MAIN");
 
-            String smsNumber = "";
+            String smsNumber = "919845395823";
 
             if (!smsNumber.isEmpty()) {
                 sendIntent.putExtra("jid", smsNumber + "@s.whatsapp.net");
