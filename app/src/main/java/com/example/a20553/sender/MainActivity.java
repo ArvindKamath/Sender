@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.loggerText) TextView text;
     @BindView(R.id.sendLocation) Button sendLocationButton;
     @BindView(R.id.ViewFlow) Button viewFlow;
-    @BindView(R.id.FlowInfo) TextView flowInfo;
     @BindView(R.id.Clear) Button clear;
     @BindView(R.id.SendTextMessage) Button sms;
 
@@ -56,6 +56,15 @@ public class MainActivity extends AppCompatActivity {
         viewFlow();
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        removeButtons();
+
+        viewFlow();
+    }
+
     @OnClick(R.id.ViewFlow)
     public void viewFlow() {
         FlowDb flowDb = new FlowDb(this.getApplicationContext());
@@ -70,8 +79,7 @@ public class MainActivity extends AppCompatActivity {
             flow.getToWhomFlowInformation() + "<>");
         }
 
-        flowInfo.setText(string.toString());
-
+        removeButtons();
         setupButtons(senderFlows);
     }
 
@@ -83,7 +91,10 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick (R.id.Clear)
     public void clearFlowDb() {
+        FlowDb flowDb = new FlowDb(this.getApplicationContext());
+        flowDb.clearAllFlows();
 
+        viewFlow();
     }
 
     @OnClick (R.id.SendTextMessage)
@@ -103,13 +114,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupButtons(List<SenderFlow> senderFlows) {
+        GridLayout layout = (GridLayout) findViewById(R.id.FlowButtonsLayout);
+        layout.setRowCount(4);
+        layout.setColumnCount(2);
         int i = 0;
         {
             final Button myButton = new Button(this);
             myButton.setText("+");
             myButton.setId(i++);
 
-            LinearLayout layout = (LinearLayout) findViewById(R.id.FlowButtonsLayout);
             layout.addView(myButton);
 
             myButton.setOnClickListener(new View.OnClickListener() {
@@ -124,8 +137,7 @@ public class MainActivity extends AppCompatActivity {
             myButton.setText(flow.getDisplayName());
             myButton.setId(i++);
             final int id_ = myButton.getId();
-
-            LinearLayout layout = (LinearLayout) findViewById(R.id.FlowButtonsLayout);
+            
             layout.addView(myButton);
 
             final String string = myButton.getText().toString();
@@ -135,6 +147,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void removeButtons() {
+        GridLayout layout = (GridLayout) findViewById(R.id.FlowButtonsLayout);
+        layout.removeAllViews();
     }
 
     protected void sendSMSMessage() {

@@ -141,6 +141,9 @@ public class FlowDb {
         editor.remove( getFieldKey(flow.getDisplayName(), KEY_HOW_ACTION));
         editor.remove( getFieldKey(flow.getDisplayName(), KEY_TOWHOM_ACTION));
 
+        js.remove(flow.getDisplayName());
+        editor.putString(KEY_SENDER_FLOW_NAMES, js.toString());
+
         editor.commit();
     }
 
@@ -180,6 +183,14 @@ public class FlowDb {
             } catch (Exception e) {
                 Log.e(TAG, "JSON creation exception");
             }
+        }
+    }
+
+    public void clearAllFlows() {
+        List<SenderFlow> flows = getAllFlows();
+
+        for (SenderFlow flow : flows) {
+            deleteFlow(flow);
         }
     }
 }
