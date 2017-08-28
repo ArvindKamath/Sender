@@ -1,9 +1,11 @@
 package com.example.a20553.sender;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,14 +13,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.example.a20553.sender.typeOfEntryInFlow.HOW;
-import static com.example.a20553.sender.typeOfEntryInFlow.WHAT;
+import static com.example.a20553.sender.TypeOfEntryInFlow.HOW;
+import static com.example.a20553.sender.TypeOfEntryInFlow.TOWHOM;
+import static com.example.a20553.sender.TypeOfEntryInFlow.WHAT;
 
 public class AddFlowActivity extends AppCompatActivity {
 
@@ -33,6 +34,8 @@ public class AddFlowActivity extends AppCompatActivity {
     @BindView(R.id.displayName) EditText displayName;
 
     private static final int RESULT_PICK_CONTACT = 0xff;
+    private String selectedAlert = "Choice not made yet";
+    private SenderFlow flow = new SenderFlow();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,26 +52,33 @@ public class AddFlowActivity extends AppCompatActivity {
 
     @OnClick(R.id.FlowSave)
     public void saveFlow () {
-        addFlow();
+
+        flow.setDisplayName(displayName.getText().toString());
+        FlowDb flowDb = new FlowDb(this.getApplicationContext());
+
+        flowDb.setFlow(flow);
 
         finish();
     }
 
     @OnClick(R.id.WhatFlowButton)
     public void goToWhatActivity() {
-        WhatAlert whatAlert = new WhatAlert(this, WHAT, whatText);
+        setupFlowAlert(WHAT, whatText);
+        flow.setWhatFlowInformation(whatText.getText().toString());
     }
 
     @OnClick(R.id.HowFlowButton)
     public void goToHowActivity() {
-        WhatAlert whatAlert = new WhatAlert(this, HOW, howText);
+        setupFlowAlert(HOW, howText);
+        flow.setHowFlowInformation(howText.getText().toString());
+        //SenderFlowConfigurationAlert senderFlowConfigurationAlert =
+        //        new SenderFlowConfigurationAlert(this, HOW, howText);
     }
 
     @OnClick(R.id.ToWhomFlowButton)
     public void goToToWhomActivity() {
-        Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
-        startActivityForResult(contactPickerIntent, RESULT_PICK_CONTACT);
+
+        setupFlowAlert(TOWHOM, toWhomText);
     }
 
     private void addFlow() {
@@ -125,8 +135,57 @@ public class AddFlowActivity extends AppCompatActivity {
             name = cursor.getString(nameIndex);
             // Set the value to the textviews
             toWhomText.setText(phoneNo);
+            flow.setToWhomFlowInformation(phoneNo);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void setupFlowAlert(final TypeOfEntryInFlow type, final TextView parentText) {
+
+        final int addFlowChoiceId;
+
+        switch (type) {
+            case WHAT:
+                addFlowChoiceId = R.array.WhatChoices;
+                break;
+            case HOW:
+                addFlowChoiceId = R.array.HowChoices;
+                break;
+            case TOWHOM:
+                addFlowChoiceId = R.array.ToWhomChoices;
+                break;
+            default:
+                // TODO decide error handling
+                addFlowChoiceId = R.array.WhatChoices;
+                break;
+        }
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Choose Wisely");
+
+        builder.setItems(addFlowChoiceId, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String[] stringList = getResources().getStringArray(addFlowChoiceId);
+                selectedAlert = stringList[which];
+
+                parentText.setText(selectedAlert);
+
+                if ((type == TOWHOM) && (selectedAlert.equals("Contact"))){
+                    pickAContact();
+                }
+            }
+        });
+
+        builder.show();
+    }
+
+    private void pickAContact() {
+        Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+
+        startActivityForResult(contactPickerIntent, RESULT_PICK_CONTACT);
     }
 }

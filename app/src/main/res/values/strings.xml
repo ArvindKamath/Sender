@@ -33,4 +33,19 @@
     <string name="sender_widget_text">Flow</string>
     <string name="sender_widget_add">Add widget</string>
 
+    <string-array name="WhatChoices">
+        <item>Send Location</item>
+        <item>Send Text Message</item>
+    </string-array>
+
+    <string-array name="HowChoices">
+        <item>WhatsApp</item>
+        <item>SMS</item>
+    </string-array>
+
+    <string-array name="ToWhomChoices">
+        <item>Contact</item>
+        <item>Others</item>
+    </string-array>
+
 </resources>
